@@ -1,0 +1,47 @@
+/* ميثاق | MITHAQ — رموز التصميم (مشتركة بين المتجر ولوحة التحكم) */
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+
+:root {
+  /* الألوان */
+  --ink: #0C0C0F;          /* الخلفية */
+  --ink-2: #131317;        /* الأسطح */
+  --ink-3: #1B1B21;        /* الأسطح المرفوعة */
+  --line: #2A2A32;         /* الحدود */
+  --line-soft: #202027;
+  --crimson: #E3123F;      /* أحمر الشعار */
+  --crimson-deep: #A50D2E;
+  --crimson-wash: rgba(227, 18, 63, 0.12);
+  --paper: #F5F3F0;        /* الأبيض الدافئ للنص */
+  --fog: #9C9AA6;          /* النص الثانوي */
+  --fog-2: #6D6B77;
+  --ok: #19B07A;
+  --ok-wash: rgba(25, 176, 122, 0.13);
+  --wait: #E8A23A;
+  --wait-wash: rgba(232, 162, 58, 0.13);
+  --bad: #F0475E;
+  --bad-wash: rgba(240, 71, 94, 0.13);
+
+  /* الخطوط */
+  --font-display: 'Alexandria', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.9375rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.375rem;
+  --fs-2xl: 1.75rem;
+  --fs-3xl: 2.25rem;
+
+  /* المسافات والزوايا */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-pill: 999px;
+
+  --shadow-lift: 0 18px 40px -18px rgba(0, 0, 0, 0.8);
+  --glow: 0 10px 30px -10px rgba(227, 18, 63, 0.55);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --header-h: 64px;
+  --nav-h: 68px;
+}

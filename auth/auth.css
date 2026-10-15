@@ -1,0 +1,33 @@
+.auth { min-height: 100dvh; display: grid; grid-template-columns: 1fr; }
+.auth-art { display: none; }
+.auth-panel { display: grid; align-content: center; gap: var(--s5); width: min(420px, 100%); margin: 0 auto; padding: calc(var(--s8) + env(safe-area-inset-top)) var(--s5) var(--s8); }
+.auth-home { justify-self: start; font-size: var(--fs-sm); color: var(--fog); }
+.auth-mark { width: 72px; height: auto; justify-self: center; }
+.auth h1 { font-size: var(--fs-2xl); text-align: center; }
+.auth .lead { text-align: center; color: var(--fog); font-size: var(--fs-sm); margin-top: -8px; line-height: 1.8; }
+.auth h1 { line-height: 1.5; }
+.auth form { display: grid; gap: var(--s4); }
+.auth .switch-mode { text-align: center; font-size: var(--fs-sm); color: var(--fog); }
+.auth .switch-mode a, .auth .link { color: var(--crimson); font-weight: 600; }
+.auth .link { justify-self: start; font-size: var(--fs-sm); }
+.meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.meter i { height: 3px; border-radius: 3px; background: var(--line); }
+.meter.s1 i:nth-child(-n+1) { background: var(--bad); }
+.meter.s2 i:nth-child(-n+2) { background: var(--wait); }
+.meter.s3 i:nth-child(-n+3) { background: var(--wait); }
+.meter.s4 i { background: var(--ok); }
+.sent { text-align: center; display: grid; gap: var(--s4); justify-items: center; }
+.sent .ring { width: 76px; height: 76px; border-radius: 24px; display: grid; place-items: center; background: var(--crimson-wash); color: var(--crimson); }
+.sent .ring .icon { width: 34px; height: 34px; }
+@media (min-width: 960px) {
+  .auth { grid-template-columns: 1.1fr 1fr; }
+  .auth-art {
+    display: grid; place-content: center; justify-items: center; gap: var(--s5); padding: var(--s10);
+    background: radial-gradient(70% 60% at 30% 70%, rgba(227, 18, 63, 0.18), transparent 70%), url('../assets/pattern.svg'), #09090B;
+    border-inline-end: 1px solid var(--line-soft);
+  }
+  .auth-logo { width: min(300px, 60%); }
+  .auth-art p { color: var(--fog); font-size: var(--fs-lg); }
+  .auth-mark { display: none; }
+}
+#authView { display: grid; gap: var(--s5); }

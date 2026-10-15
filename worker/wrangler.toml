@@ -1,0 +1,11 @@
+name = "mithaq-api"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# ⚠️ هذه القيم تتطبق مع كل نشر تلقائي من GitHub (وتغلب على اللي في لوحة Cloudflare)
+[vars]
+FIREBASE_PROJECT_ID = "iqplus-a5039"
+ALLOWED_ORIGINS = "https://lysd89181-lab.github.io,https://iqstore.com.ly"
+SITE_URL = "https://lysd89181-lab.github.io/mithaq-test"
+
+# السر FIREBASE_SERVICE_ACCOUNT ينحط من لوحة Cloudflare فقط (النشر ما يمسحوش)

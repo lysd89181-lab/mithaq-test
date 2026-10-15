@@ -1,0 +1,117 @@
+rules_version = '2';
+// ميثاق | MITHAQ — قواعد Firestore
+// المبدأ: المتصفح يقرأ ويعدّل الكتالوج فقط. أي حركة فيها فلوس (رصيد، شراء، شحن، استرجاع)
+// تتم حصرياً من السيرفر (Cloudflare Worker) بحساب الخدمة، اللي يتجاوز هذه القواعد.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+    function staffDoc() { return get(/databases/$(database)/documents/admins/$(me())).data; }
+    function isStaffMember() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
+    function isAdmin() { return isStaffMember() && staffDoc().role == 'admin'; }
+    // صلاحية محددة لموظف، والمدير عنده الكل
+    function can(p) {
+      return isAdmin() || (isStaffMember() && staffDoc().role == 'staff'
+        && ('perms' in staffDoc()) && staffDoc().perms.get(p, false) == true);
+    }
+    function unchanged(f) {
+      return (f in request.resource.data) == (f in resource.data)
+        && (!(f in resource.data) || request.resource.data[f] == resource.data[f]);
+    }
+
+    // ===== الإدارة والموظفين (الكتابة من السيرفر فقط) =====
+    match /admins/{uid} {
+      allow read: if signedIn() && (me() == uid || isAdmin());
+      allow write: if false;
+    }
+
+    // ===== المستخدمين =====
+    match /users/{uid} {
+      allow read: if (signedIn() && me() == uid) || can('users');
+      allow create: if signedIn() && me() == uid
+        && request.resource.data.balance == 0
+        && !('role' in request.resource.data);
+      // الزبون يعدّل بياناته العادية بس، والرصيد والحالة ممنوعة
+      allow update: if signedIn() && (
+        (me() == uid && unchanged('balance') && unchanged('role') && unchanged('isActive') && unchanged('email'))
+        || (can('users') && unchanged('balance'))
+      );
+      allow delete: if isAdmin();
+    }
+
+    // ===== الكتالوج (قراءة عامة) =====
+    match /categories/{id} {
+      allow read: if true;
+      allow write: if can('products');
+    }
+    match /products/{id} {
+      allow read: if true;
+      allow write: if can('products');
+    }
+    match /app/{doc} {
+      allow read: if true;
+      allow write: if can('settings');
+    }
+    match /settings/{doc} {
+      allow read: if true;
+      allow write: if can('settings');
+    }
+
+    // ===== الطلبات والإيداعات (الإنشاء والقبول من السيرفر) =====
+    match /orders/{id} {
+      allow read: if (signedIn() && resource.data.userId == me()) || can('orders');
+      allow create, update: if false;
+      allow delete: if isAdmin();
+    }
+    match /deposits/{id} {
+      allow read: if (signedIn() && resource.data.userId == me()) || can('deposits');
+      allow create, update: if false;
+      allow delete: if isAdmin();
+    }
+    match /wallet_tx/{id} {
+      allow read: if (signedIn() && resource.data.userId == me()) || can('users');
+      allow write: if false;
+    }
+
+    // ===== المخزون (سري) =====
+    match /stock_codes/{id} {
+      allow read, write: if can('stock');
+    }
+    match /shared_accounts/{id} {
+      allow read, write: if can('stock');
+    }
+
+    // ===== الكوبونات =====
+    match /coupons/{code} {
+      allow read, write: if can('coupons');
+    }
+    match /coupon_uses/{id} {
+      allow read: if can('coupons');
+      allow write: if false;
+    }
+
+    // ===== الإشعارات =====
+    match /notifications/{id} {
+      allow read: if (signedIn() && resource.data.userId in [me(), 'all']) || can('notify');
+      allow write: if false;
+    }
+    match /push_tokens/{id} {
+      allow read, write: if false;
+    }
+
+    // ===== سجل العمليات =====
+    match /audit_logs/{id} {
+      allow read: if can('audit');
+      allow create: if isStaffMember() && request.resource.data.by == me();
+      allow update, delete: if false;
+    }
+
+    // أي شي ثاني ممنوع
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
