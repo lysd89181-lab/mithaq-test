@@ -14,7 +14,7 @@ firebase.initializeApp({
 // الإشعارات اللي فيها notification يعرضها Firebase تلقائياً لما الموقع مقفول
 firebase.messaging();
 
-const VERSION = 'mq-v1';
+const VERSION = 'mq-v2';
 const CORE = ['./', './index.html', './manifest.json', './assets/icon-192.png', './assets/logo-mark.png', './css/tokens.css', './css/base.css', './css/components.css', './css/layout.css'];
 
 self.addEventListener('install', (e) => {

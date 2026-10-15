@@ -96,7 +96,9 @@ export default async function home(el) {
 
   // الواجهة
   let timer;
-  heroSlides().then((slides) => {
+  heroSlides().then((list) => {
+    // بدون صور في الإعدادات: نعرض بنر ميثاق الافتراضي
+    const slides = list.length ? list : [{ image: new URL('assets/banner-1.jpg', location.href).href, link: '#/categories' }];
     const wrap = el.querySelector('#heroWrap');
     if (!wrap) return;
     wrap.innerHTML = heroHtml(slides).html;
