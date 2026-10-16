@@ -6,6 +6,6 @@ compatibility_date = "2026-09-01"
 [vars]
 FIREBASE_PROJECT_ID = "iqplus-a5039"
 ALLOWED_ORIGINS = "https://lysd89181-lab.github.io,https://iqstore.com.ly"
-SITE_URL = "https://lysd89181-lab.github.io/mithaq-test"
+SITE_URL = "https://iqstore.com.ly"
 
 # السر FIREBASE_SERVICE_ACCOUNT ينحط من لوحة Cloudflare فقط (النشر ما يمسحوش)
